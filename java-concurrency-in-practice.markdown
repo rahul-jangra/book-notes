@@ -33,19 +33,10 @@ by Brian Goetz
 
 ##### 2.3: Locking
 
+* In Java, a synchronized block has two parts: a reference to an object that will serve as the lock, and a block of code to be guarded by that lock. A synchronized method is a shorthand for a synchronized block that spans an entire method body, and whose lock is the object on which the method is being invoked. (Static synchronized methods use the Class object for the lock.)
+* Every Java object can implicitly act as a lock for purposes of synchronization; these built-in locks are called intrinsic locks or monitor locks. The lock is automatically acquired by the executing thread before entering a synchronized block and automatically released when control exits the synchronized block, whether by the normal control path or by throwing an exception out of the block. The only way to acquire an intrinsic lock is to enter a synchronized block or method guarded by that lock. Intrinsic locks in Java act as mutexes (or mutual exclusion locks), which means that at most one thread may own the lock. When thread A attempts to acquire a lock held by thread B, A must wait, or block, until B releases it. If B never releases the lock, A waits forever.
 * Mutual exclusion locks, or mutexes, means that at most one thread may own a lock. If thread A attempts to acquire a lock by thread B, it blocks until B releases it.
 * Reentrancy means that locks are acquired on a per-thread rather than per-invocation basis. Each lock is associated with an acquisition count and an owning thread.
-* Every Java object can implicitly act as a lock for purposes of synchronization;
-these built-in locks are called intrinsic locks or monitor locks. The lock is auto-
-matically acquired by the executing thread before entering a synchronized block
-and automatically released when control exits the synchronized block, whether
-by the normal control path or by throwing an exception out of the block. The
-only way to acquire an intrinsic lock is to enter a synchronized block or method
-guarded by that lock.
-Intrinsic locks in Java act as mutexes (or mutual exclusion locks), which means
-that at most one thread may own the lock. When thread A attempts to acquire a
-lock held by thread B, A must wait, or block, until B releases it. If B never releases
-the lock, A waits forever.
 
 ##### 2.4: Guarding state with locks
 
@@ -68,6 +59,7 @@ the lock, A waits forever.
 * Unless synchronization is used every time a variable is accessed, it is possible for a thread to read a stale value for that variable.
 * Stale data can cause serious and confusing failures such as unexpected exceptions, corrupted data structures, inaccurate computations, and infinite loops.
 * *Out-of-thin-air safety* is when a variable reads a thread without synchronization, it reads a value that was actually written by another thread instead of some random value.
+* Out-of-thin-air safety applies to all variables, with one exception: 64-bit numeric variables (double and long) that are not declared volatile. The Java Memory Model requires fetch and store operations to be atomic, but for nonvolatile long and double variables, the JVM is permitted to treat a 64-bit read or write as two separate 32-bit operations. If the reads and writes occur in different threads, it is therefore possible to read a nonvolatile long and get back the high 32 bits of one value and the low 32 bits of another.
 * With the Java Memory Model, the values of variables that were visible to thread A prior to releasing a lock are guaranteed to be visible to thread B upon acquiring the same lock.
 * Variables marked with the `volatile` keyword are not reordered with other memory operations, and are not put in caches where they are hidden from other processors.
 * A `volatile` variable can be used for a completion, interruption, or status flag, but the semantics are not strong enough to make the increment operation atomic, for example.
