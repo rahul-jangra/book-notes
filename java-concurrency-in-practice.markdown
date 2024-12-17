@@ -35,6 +35,17 @@ by Brian Goetz
 
 * Mutual exclusion locks, or mutexes, means that at most one thread may own a lock. If thread A attempts to acquire a lock by thread B, it blocks until B releases it.
 * Reentrancy means that locks are acquired on a per-thread rather than per-invocation basis. Each lock is associated with an acquisition count and an owning thread.
+* Every Java object can implicitly act as a lock for purposes of synchronization;
+these built-in locks are called intrinsic locks or monitor locks. The lock is auto-
+matically acquired by the executing thread before entering a synchronized block
+and automatically released when control exits the synchronized block, whether
+by the normal control path or by throwing an exception out of the block. The
+only way to acquire an intrinsic lock is to enter a synchronized block or method
+guarded by that lock.
+Intrinsic locks in Java act as mutexes (or mutual exclusion locks), which means
+that at most one thread may own the lock. When thread A attempts to acquire a
+lock held by thread B, A must wait, or block, until B releases it. If B never releases
+the lock, A waits forever.
 
 ##### 2.4: Guarding state with locks
 
