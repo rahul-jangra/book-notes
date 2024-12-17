@@ -62,7 +62,11 @@ by Brian Goetz
 * *Out-of-thin-air safety* is when a variable reads a thread without synchronization, it reads a value that was actually written by another thread instead of some random value.
 * Out-of-thin-air safety applies to all variables, with one exception: 64-bit numeric variables (double and long) that are not declared volatile. The Java Memory Model requires fetch and store operations to be atomic, but for nonvolatile long and double variables, the JVM is permitted to treat a 64-bit read or write as two separate 32-bit operations. If the reads and writes occur in different threads, it is therefore possible to read a nonvolatile long and get back the high 32 bits of one value and the low 32 bits of another.
 * With the Java Memory Model, the values of variables that were visible to thread A prior to releasing a lock are guaranteed to be visible to thread B upon acquiring the same lock.
-* Variables marked with the `volatile` keyword are not reordered with other memory operations, and are not put in caches where they are hidden from other processors.
+* When a field is declared volatile, the compiler and runtime are put on notice that this variable is shared and that operations on it should not be reordered with other memory operations. Volatile variables are not cached in registers or in caches where they are hidden from other processors, so a read of a volatile variable always returns the most recent write by any thread.
+* When thread A writes to a volatile variable and subsequently thread B reads that same variable, the values of all variables that were
+visible to A prior to writing to the volatile variable become visible to B after reading the volatile variable. So from a memory visibility perspective, writing a volatile variable is like exiting a synchronized block and reading a volatile variable is like entering a synchronized block
+* Accessing a volatile variable **performs no locking** and so cannot cause the executing thread to block, making volatile variables a lighte weight synchronization mechanism than synchronized.
+* Locking can guarantee both visibility and atomicity; volatile variables can only guarantee visibility
 * A `volatile` variable can be used for a completion, interruption, or status flag, but the semantics are not strong enough to make the increment operation atomic, for example.
 
 ##### 3.2: Publication and escape
