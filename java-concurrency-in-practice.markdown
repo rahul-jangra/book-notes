@@ -74,6 +74,7 @@ visible to A prior to writing to the volatile variable become visible to B after
 * *Publishing* an object means making it available to code outside of its current scope. An object that is published when it should not have been is said to have *escaped*.
 * Any object that is *reachable* from a published object by following some chain of nonprivate field references and method calls has also been published.
 * Once an object escapes, you have to assume that another class or thread may, maliciously or carelessly, misuse it. This is a compelling reason to use encapsulation.
+* In Java inner class instances contain a hidden reference to the enclosing instance. A mechanism by which an object or its internal state can be published is to publish an inner class instance.
 * An object is in a predictable, consistent state only after its constructor returns, so publishing an object (via `this`) from within its constructor can publish an incompletely constructed object.
 * You can avoid this improper construction by using a private constructor and a public static factory method.
 
