@@ -88,7 +88,8 @@ visible to A prior to writing to the volatile variable become visible to B after
 
 ##### 3.4: Immutability
 
-* Immutable objects are simple, because they can only have one state. Immutable objects are also safe, because you can freely share and publish them without the need to make defensive copies.
+* The final keyword, a more limited version of the const mechanism from C++, supports the construction of immutable objects. Final fields can’t be modified (although the objects they refer to can be modified if they are mutable), but they also have special semantics under the Java Memory Model
+*  Immutable objects are simple, because they can only have one state. Immutable objects are also safe, because you can freely share and publish them without the need to make defensive copies.
 * An object is immutable if its state cannot be modified after construction, all its fields are `final`, and it is properly constructed, i.e. the `this` reference does not escape during construction.
 * Whenever a group of related data items but be acted upon atomically, consider creating an immutable holder class for them.
 
