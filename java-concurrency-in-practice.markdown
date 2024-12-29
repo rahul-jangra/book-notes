@@ -100,7 +100,7 @@ visible to A prior to writing to the volatile variable become visible to B after
 * However, immutable objects can be used safely by any thread without additional synchronization, even when synchronization is not used to publish them.
 * To publish an object safely, both the reference to the object and the object's state must be made visible to other threads at the same time. Safest way tp do this is to use public static initializers(this is because of  internal jvms synchronization while creating static fields). Another way for safe publishing is to useb guarantee given by jvm to publish safely the of values of final fields. So Storing a reference to an object into a final field of a properly constructed object will provide safe publication of that object. 
 * Objects that are not technically immutable, but whose state will not be modified after publication, are called *effectively immutable*. Such objects, when safely published, can be used safely by any thread without additional synchronization .
-* While effectively immutable objects must be safely published, mutable objects must be safely published, and mus the either thread-safe or guarded by a lock.
+* While effectively immutable objects must only be safely published. Mutable objects must be safely published, and must be either thread-safe or guarded by a lock.
 * Many concurrency errors stem from failing to understand the "rules of engagement" for a shared object. When you publish an object, document how it should be accessed.
 
 #### Chapter 4: Composing Objects
