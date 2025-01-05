@@ -88,14 +88,14 @@ visible to A prior to writing to the volatile variable become visible to B after
 
 ##### 3.4: Immutability
 
-* The final keyword, a more limited version of the const mechanism from C++, supports the construction of immutable objects. Final fields can’t be modified (although the objects they refer to can be modified if they are mutable), but they also have special semantics under the Java Memory Model
+* The final keyword, a more limited version of the const mechanism from C++, supports the construction of immutable objects. Final fields can’t be modified (although the objects they refer to can be modified if they are mutable), but they also have special semantics under the Java Memory Model. (you have the guarantee that if you have a final field: private final SomeType field; the write to that field (either in the declaration or in the constructor): field = new SomeType(); won't be reodered and will be visible by other threads if the object is properly published (i.e. no escape of this for example).)
 *  Immutable objects are simple, because they can only have one state. Immutable objects are also safe, because you can freely share and publish them without the need to make defensive copies.
 * An object is immutable if its state cannot be modified after construction, all its fields are `final`, and it is properly constructed, i.e. the `this` reference does not escape during construction.
 * Whenever a group of related data items but be acted upon atomically, consider creating an immutable holder class for them.
 
 ##### 3.5: Safe publication
 
-* "Safe publication" means sharing an object among treads with thread safety.
+* "Safe publication" means sharing an object among threads with thread safety.
 *  Simply storing a reference to an object into a public field is not enough to publish that object safely. Improper publication allows another thread to observe a partially constructed object or it may also allow another thread to see stale value of reference to that object.
 * However, immutable objects can be used safely by any thread without additional synchronization, even when synchronization is not used to publish them.
 * To publish an object safely, both the reference to the object and the object's state must be made visible to other threads at the same time. Safest way tp do this is to use public static initializers(this is because of  internal jvms synchronization while creating static fields). Another way for safe publishing is to useb guarantee given by jvm to publish safely the of values of final fields. So Storing a reference to an object into a final field of a properly constructed object will provide safe publication of that object. 
