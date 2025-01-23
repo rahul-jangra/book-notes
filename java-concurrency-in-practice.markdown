@@ -192,3 +192,12 @@ visible to A prior to writing to the volatile variable become visible to B after
 * If your class has a small number of hot fields that do not participate in invariants with other variables, then replacing them with atomic variables may improve scalability.
 * Tools like `vmstat` or `mpstat` can show whether your application is CPU-bound, while tools like `iostat` or `perfmon` can show whether your application is I/O-bound.
 * The tool `vmstat` has a column reporting the number of threads that are runnable but not currently running because a CPU is not available.
+
+
+#### Chapter 16: Java Memory Model
+
+##### 16.1 What is a memory model ang why would I want one ?
+- Compilers may generate instructions in a different order than the “obvious” one suggested by the source code, or store variables in registers instead of in memory; processors may execute instructions in parallel or out of order; caches may vary the order in which writes to variables are committed to main memory
+- The Java Language Specification requires the JVM to maintain *within-thread as-if-serial* semantics
+- "Within-thread as-if-serial semantics" refers to the concept in a programming language's memory model that guarantees that within a single thread, even if the compiler or processor reorders operations for optimization, the final result will always be the same as if those operations were executed in the exact order written in the code, as if it were running serially (one instruction at a time)
+- 
