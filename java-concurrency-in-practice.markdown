@@ -196,8 +196,9 @@ visible to A prior to writing to the volatile variable become visible to B after
 
 #### Chapter 16: Java Memory Model
 
-##### 16.1 What is a memory model ang why would I want one ?
+##### 16.1 What is a memory model and why would I want one ?
 - Compilers may generate instructions in a different order than the “obvious” one suggested by the source code, or store variables in registers instead of in memory; processors may execute instructions in parallel or out of order; caches may vary the order in which writes to variables are committed to main memory
 - The Java Language Specification requires the JVM to maintain *within-thread as-if-serial* semantics
 - "Within-thread as-if-serial semantics" refers to the concept in a programming language's memory model that guarantees that within a single thread, even if the compiler or processor reorders operations for optimization, the final result will always be the same as if those operations were executed in the exact order written in the code, as if it were running serially (one instruction at a time)
+- In a shared-memory multiprocessor architecture, each processor has its own cache that is periodically reconciled with main memory. An architecture’s memory model tells programs what guarantees they can expect from the memory system. n order to shield the Java developer from the differences between memory models across architectures, Java provides its own memory model, and the JVM deals with the differences between the JMM and the underlying platform’s memory model by inserting memory barriers at the appropriate places.
 - 
