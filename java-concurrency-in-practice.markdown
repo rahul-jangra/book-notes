@@ -208,3 +208,18 @@ visible to A prior to writing to the volatile variable become visible to B after
 to date as the frozen value.
 -  a number of small changes to SafeStates would take away its thread safety. If states were not finael, or if any method other than the constructor modified its contents, initialization safety would not be strong enough to safel access SafeStates without synchronization. If SafeStates had other nonfinal fields, other threads might still see incorrect values of those fields.
 -  This is the problem with Double-Checked-Locking code snippet. This problem is solved by using volatile keyword, or by using Immutable object with final fields.
+```
+@NotThreadSafe
+public class DoubleCheckedLocking {
+    private static Resource resource;
+    public static Resource getInstance() {
+        if (resource == null) {
+            synchronized (DoubleCheckedLocking.class) {
+                if (resource == null)
+                    resource = new Resource();
+            }
+        }
+        return resource;
+    }
+}
+```
