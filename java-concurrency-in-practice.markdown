@@ -118,6 +118,17 @@ visible to A prior to writing to the volatile variable become visible to B after
 * Instance confinement also allows different state variables to be held by different locks.
 * Confined objects can also escape by publishing other objects such as iterators or inner class instances that may indirectly publish the confined objects.
 * Using a private lock prohibits client code from acquiring it, whereas a publicly accessible lock allows client code to participate in its synchronization policy, perhaps incorrectly.
+```
+public class PrivateLock {
+    private final Object myLock = new Object();
+    @GuardedBy("myLock") Widget widget;
+    void someMethod() {
+        synchronized(myLock) {
+// Access or modify the state of widget
+        }
+    }
+}
+```
 * The Java monitor pattern is useful when building classes from scratch or composing classes out of objects that are not thread-safe.
 ```
 @ThreadSafe
