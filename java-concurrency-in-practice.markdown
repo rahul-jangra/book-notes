@@ -129,7 +129,7 @@ public class PrivateLock {
     }
 }
 ```
-* The Java monitor pattern is useful when building classes from scratch or composing classes out of objects that are not thread-safe.
+* A monitor is an entity that has both lock and wait - ability. In Java any Object can serve as a monitor. The Java monitor pattern is useful when building classes from scratch or composing classes out of objects that are not thread-safe.
 ```
 @ThreadSafe
 public final class Counter {
